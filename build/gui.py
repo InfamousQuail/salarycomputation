@@ -1,10 +1,10 @@
-#import GrossSalary
+import GrossSalary
 
 from pathlib import Path
 
 
 
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Frame, Label
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Frame, Label, StringVar, IntVar
 
 import tkinter as tk
 
@@ -23,6 +23,19 @@ def toggle_details():
         details_frame.place(x=0, y=0)
 
 
+def update_gross_salary(*args):
+   
+    gross_salary = GrossSalary.gross_salary(
+        rate_of_pay_var.get(),
+        work_hour_var.get(),
+        total_days_of_work_var.get(),
+        overtime_var.get(),
+        absence_var.get()
+    )
+    gross_salary_var.set(gross_salary)
+
+
+    
 window = Tk()
 
 window.geometry("556x377")
@@ -38,6 +51,30 @@ canvas = Canvas(
     highlightthickness = 0,
     relief = "ridge"
 )
+
+#------------------- StringVar/trace-adds ----------------------------
+
+gross_salary_var = StringVar()
+gross_salary_var.trace_add("write", update_gross_salary)
+
+absence_var = StringVar()
+absence_var.trace_add("write", update_gross_salary)
+
+overtime_var = StringVar()
+overtime_var.trace_add("write", update_gross_salary)
+
+work_hour_var = StringVar()
+work_hour_var.trace_add("write", update_gross_salary)
+
+rate_of_pay_var = StringVar()
+rate_of_pay_var.trace_add("write", update_gross_salary)
+
+total_days_of_work_var = StringVar()
+total_days_of_work_var.trace_add("write", update_gross_salary)
+
+
+#-----------------------------------------------
+
 
 canvas.place(x = 0, y = 0)
 botimage = PhotoImage(
@@ -516,14 +553,32 @@ canvas.create_text(
 
 # ---------------------- IMPORTANT --------------------------
 
-canvas.create_text(
-    69.0,
-    52.0,
-    anchor="nw",
-    text="21.00",      # <<< GROSS SALARY VALUE (just a place holder)
-    fill="#000000",
-    font=("Outfit Bold", 24 * -1)
+# canvas.create_text(
+#     69.0,
+#     52.0,
+#     anchor="nw",
+#     text="21.00",      # <<< GROSS SALARY VALUE (just a place holder)
+#     fill="#000000",
+#     font=("Outfit Bold", 24 * -1)
+# )
+
+
+
+gross_salary_label = Label(
+    canvas,
+    background= "#FFFFFF",
+    textvariable=gross_salary_var,
+    font=("Outfit Bold", 24 * -1),
+    
 )
+
+gross_salary_label.place(
+    x=69.0,
+    y=52.0
+)
+
+#---------------------------------------------------------------
+
 
 canvas.create_text(
     241.0,
@@ -611,7 +666,12 @@ loan.place(
 
 # ABSENCE INPUT ----------------------------------------------------
 
-absence = Entry(
+
+
+
+total_days_of_absent = Entry(
+    canvas,
+    textvariable=absence_var,
     bd=0,
     bg="#F4EEEE",
     fg="#000716",
@@ -619,7 +679,8 @@ absence = Entry(
     font=("Outfit Bold", 19 * -1),
     justify="center"
 )
-absence.place(
+
+total_days_of_absent.place(
     x=436.0,
     y=243.0,
     width=37.0,
@@ -628,7 +689,12 @@ absence.place(
 
 # OVER-TIME HOUR INPUT ------------------------------------------------------
 
-othrs = Entry(
+
+
+
+total_overtime_in_hour_in_month = Entry(
+    window,
+    textvariable=overtime_var,
     bd=0,
     bg="#F4EEEE",
     fg="#000716",
@@ -636,7 +702,7 @@ othrs = Entry(
     font=("Outfit Bold", 19 * -1),
     justify="center"
 )
-othrs.place(
+total_overtime_in_hour_in_month.place(
     x=312.0,
     y=243.0,
     width=37.0,
@@ -645,7 +711,12 @@ othrs.place(
 
 # WORK HOUR INPUT ------------------------------------------------------
 
-work_hr = Entry(
+
+
+
+total_working_hours = Entry(
+    window,
+    textvariable=work_hour_var,
     bd=0,
     bg="#F4EEEE",
     fg="#000716",
@@ -653,7 +724,7 @@ work_hr = Entry(
     font=("Outfit Bold", 19 * -1),
     justify="center"
 )
-work_hr.place(
+total_working_hours.place(
     x=179.0,
     y=243.0,
     width=37.0,
@@ -662,7 +733,12 @@ work_hr.place(
 
 # RATE OF PAY INPUT -----------------------------------------------------------
 
-rate_of_pay = Entry(
+
+
+
+salary_rate = Entry(
+    window,
+    textvariable=rate_of_pay_var,
     bd=0,
     bg="#F4EEEE",
     fg="#000716",
@@ -671,7 +747,7 @@ rate_of_pay = Entry(
     justify="center"
 )
 
-rate_of_pay.place(
+salary_rate.place(
     x=58.0,
     y=243.0,
     width=50.0,
@@ -680,20 +756,24 @@ rate_of_pay.place(
 
 # WORKING DAY INPUT ---------------------------------------------------------
 
-workingday = Entry(
+
+
+
+total_days_of_work_in_month = Entry(
+    window,
+    textvariable=total_days_of_work_var,
     bd=0,
     bg="#F4EEEE",
     fg="#000716",
     highlightthickness=0,
     font=("Outfit Bold", 19 * -1)
 )
-workingday.place(
+total_days_of_work_in_month.place(
     x=445.0,
     y=162.0,
     width=25.0,
     height=22.0
 )
-
 
 # NAME INPUT ----------------------------------------------------------------
 
@@ -729,7 +809,7 @@ def on_check3():
     print("CheckboxPhilhealth is checked" if checkbox_varPhilhealth.get() else "CheckboxPhilhealth is unchecked")
 
 # Checkbuttons
-checkboxGsis = tk.Checkbutton(window,variable=checkbox_varGsis, command=on_check1)
+checkboxGsis = tk.Checkbutton(window,variable=checkbox_varGsis,background="#FFDE59", foreground= "#FF5757", command=on_check1)
 checkboxGsis.place(
     x=220.0, 
     y=330.0,
@@ -737,7 +817,7 @@ checkboxGsis.place(
     height=15.0
 )
 
-checkboxPagibig = tk.Checkbutton(window,variable=checkbox_varPagibig, command=on_check2)
+checkboxPagibig = tk.Checkbutton(window,variable=checkbox_varPagibig, background="#FFDE59", foreground= "#FF5757", command=on_check2)
 checkboxPagibig.place(
     x=342.0,
     y=330.0,
@@ -745,7 +825,7 @@ checkboxPagibig.place(
     height=15.0,
 )
 
-checkboxPhilhealth = tk.Checkbutton(window,variable=checkbox_varPhilhealth, command=on_check3)
+checkboxPhilhealth = tk.Checkbutton(window,variable=checkbox_varPhilhealth, background="#FFDE59", foreground= "#FF5757", command=on_check3)
 checkboxPhilhealth.place(
     x=460.0,
     y=330.0,
