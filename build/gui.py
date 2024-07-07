@@ -16,12 +16,18 @@ ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\Jonathan Macatantgay\Desktop\Salaryy
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+#---------------------------- SEE DETAIL BUTTON --------------------------------
+
 def toggle_details():
     if details_frame.winfo_viewable():
         details_frame.place_forget()
     else:
         details_frame.place(x=0, y=0)
 
+#-------------------------------------------------------------------------------
+
+
+#--------------------------------- FUNCTIONS -----------------------------------
 
 def update_gross_salary(*args):
    
@@ -34,7 +40,7 @@ def update_gross_salary(*args):
     )
     gross_salary_var.set(gross_salary)
 
-
+#-----------------------------------------------------------------------------------
     
 window = Tk()
 
@@ -553,16 +559,6 @@ canvas.create_text(
 
 # ---------------------- IMPORTANT --------------------------
 
-# canvas.create_text(
-#     69.0,
-#     52.0,
-#     anchor="nw",
-#     text="21.00",      # <<< GROSS SALARY VALUE (just a place holder)
-#     fill="#000000",
-#     font=("Outfit Bold", 24 * -1)
-# )
-
-
 
 gross_salary_label = Label(
     canvas,
@@ -574,7 +570,7 @@ gross_salary_label = Label(
 
 gross_salary_label.place(
     x=69.0,
-    y=52.0
+    y=50.0
 )
 
 #---------------------------------------------------------------
@@ -811,7 +807,7 @@ def on_check3():
 # Checkbuttons
 checkboxGsis = tk.Checkbutton(window,variable=checkbox_varGsis,background="#FFDE59", foreground= "#FF5757", command=on_check1)
 checkboxGsis.place(
-    x=220.0, 
+    x=221.0, 
     y=330.0,
     width=15.0, 
     height=15.0
@@ -819,7 +815,7 @@ checkboxGsis.place(
 
 checkboxPagibig = tk.Checkbutton(window,variable=checkbox_varPagibig, background="#FFDE59", foreground= "#FF5757", command=on_check2)
 checkboxPagibig.place(
-    x=342.0,
+    x=346.0,
     y=330.0,
     width=15.0,
     height=15.0,
@@ -827,7 +823,7 @@ checkboxPagibig.place(
 
 checkboxPhilhealth = tk.Checkbutton(window,variable=checkbox_varPhilhealth, background="#FFDE59", foreground= "#FF5757", command=on_check3)
 checkboxPhilhealth.place(
-    x=460.0,
+    x=464.0,
     y=330.0,
     width=15.0,
     height=15.0,
