@@ -1,15 +1,14 @@
-def gross_salary(salary_rate, total_working_hours, total_days_of_work_in_month, total_overtime_in_hour_in_month, total_days_of_absent):
-    
+def compute_Gross_Salary(rate_pr_hr, hr_pr_day, OT_hr, absence, day_pr_mnth):
     try:
-        salary_rate = float(salary_rate)
-        total_working_hours = float(total_working_hours)
-        total_days_of_work_in_month = float(total_days_of_work_in_month)
-        total_overtime_in_hour_in_month = float(total_overtime_in_hour_in_month)
-        total_days_of_absent = float(total_days_of_absent)
+        rate_pr_hr = float(rate_pr_hr)
+        hr_pr_day = float(hr_pr_day)
+        OT_hr = float(OT_hr)
+        absence = float(absence)
+        day_pr_mnth = float(day_pr_mnth)
 
-        total_hours_worked = (total_working_hours * (total_days_of_work_in_month - total_days_of_absent)) + total_overtime_in_hour_in_month
-        grosssalary = total_hours_worked * salary_rate
-
-        return grosssalary
+        total_hrs_pr_month = ((day_pr_mnth - absence)*hr_pr_day) + OT_hr
+        
+        return "{:.2f}".format(total_hrs_pr_month*rate_pr_hr)
+    
     except ValueError:
-        return "Error"
+        return "---"
